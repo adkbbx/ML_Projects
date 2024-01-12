@@ -1,0 +1,13 @@
+prefix=E:/ML_Projects/ML_Projects/TexttoSQL_LLM_APP/venv/Library
+exec_prefix=E:/ML_Projects/ML_Projects/TexttoSQL_LLM_APP/venv/Library
+libdir=E:/ML_Projects/ML_Projects/TexttoSQL_LLM_APP/venv/Library/lib
+sharedlibdir=E:/ML_Projects/ML_Projects/TexttoSQL_LLM_APP/venv/Library/lib
+includedir=E:/ML_Projects/ML_Projects/TexttoSQL_LLM_APP/venv/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
