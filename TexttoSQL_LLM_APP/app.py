@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+import pandas as pd
 load_dotenv()
 
 
@@ -51,6 +52,27 @@ prompt=[
 
 st.set_page_config(page_title="I can Retrieve Any SQL query")
 st.header("Gemini App to Retrieve SQL Data")
+
+# Connect to SQLite
+connection = sqlite3.connect("student.db")
+cursor = connection.cursor()
+
+# Display all records in a table
+st.title("Student Database")
+data = cursor.execute('''SELECT * FROM STUDENT''')
+columns = [description[0] for description in cursor.description]
+df = pd.DataFrame(data.fetchall(), columns=columns)
+st.table(df)
+
+
+
+
+
+
+
+
+# Close the connection
+connection.close()
 
 
 question=st.text_input("Input: ",key="input")
