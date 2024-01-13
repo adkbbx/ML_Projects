@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import pandas as pd
+
 load_dotenv()
 
 
@@ -16,6 +17,11 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 def get_gemini_response(question,prompt):
     model=genai.GenerativeModel('gemini-pro')
     response=model.generate_content([prompt[0],question])
+    return response.text
+
+def get_gemini_formatted_response(question,prompt):
+    model=genai.GenerativeModel('gemini-pro')
+    response=model.generate_content([prompt[1],question])
     return response.text
 
 
@@ -43,10 +49,13 @@ prompt=[
       where CLASS="Machine learning"; 
       also the sql code should not have ``` in beginning or end and sql word in output
 
+      """, 
       """
+Reformat the SQL output responses from a student database. 
+The database has the following columns: NAME, CLASS, SECTION, MARKS.Ensure that 
+If the response is a single numerical value it may represent the total number of entries in the database.
+"""
 ]
-
-
 
 ## Streamlit App
 
@@ -64,18 +73,18 @@ columns = [description[0] for description in cursor.description]
 df = pd.DataFrame(data.fetchall(), columns=columns)
 st.table(df)
 
-
-
-
-
-
-
-
 # Close the connection
 connection.close()
 
+# Display example prompts below the database
+st.subheader("Example Prompts")
+st.text("1. How many entries of records are present?")
+st.text("2. Tell me all the student names studying in Machine learning class?")
+st.text("3. Give me the average marks of students in each class.")
 
-question=st.text_input("Input: ",key="input")
+st.subheader("Input: ")
+
+question=st.text_input("",key="input")
 
 submit=st.button("Ask the Question")
 
@@ -84,8 +93,12 @@ submit=st.button("Ask the Question")
 if submit:
     response=get_gemini_response(question,prompt)
     print(response)
-    response=read_sql_query(response,"student.db")
+    response=str(read_sql_query(response,"student.db"))
+    formatted_response = get_gemini_formatted_response(response,prompt)
     st.subheader("The Response is")
-    for row in response:
-        print(row)
-        st.header(row)
+    st.write(formatted_response)
+    # for row in response:
+    #     my_string = str(row)
+
+    #     print(my_string)
+        
