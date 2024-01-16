@@ -8,7 +8,7 @@ def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]  # get index of the movie
     distances = similarity[movie_index]  # get similarity scores of the index
     movies_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[
-                  1:6]  # sort top 5 similarity score of requested movie
+                  0:5]  # sort top 5 similarity score of requested movie
     recommended_movies = []
     recommended_movies_poster = []
     for similar_movie in movies_list:
@@ -49,7 +49,4 @@ if st.button('Recommend'):
             container = st.container()
             container.image(poster)
             container.write(recommendation)
-
-
-
 
