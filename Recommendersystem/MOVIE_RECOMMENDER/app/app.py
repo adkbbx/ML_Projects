@@ -33,7 +33,7 @@ movies = pd.DataFrame(movies_dict)
 
 # https://api.themoviedb.org/3/movie/{movie_id}?api_key=9c3c54efb7377f783bbfd558dbbca66b&language=en-US
 
-st.title('Movie Recommender system')
+st.title('Movie Recommender system (Content-Based)')
 
 
 selected_movie_name = st.selectbox('How would you like to be contacted?',movies['title'].values)
